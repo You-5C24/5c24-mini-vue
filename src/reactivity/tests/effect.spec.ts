@@ -34,4 +34,17 @@ describe("effect", () => {
     expect(demoAge).toBe(4);
     expect(user2Age).toBe(20);
   });
+
+  it("should runner when call effect", () => {
+    let foo = 10;
+    let runner = effect(() => {
+      foo++;
+      return "foo";
+    });
+
+    expect(foo).toBe(11);
+    let r = runner();
+    expect(foo).toBe(12);
+    expect(r).toBe("foo");
+  });
 });
