@@ -1,4 +1,4 @@
-class ReactiveEffct {
+class ReactiveEffect {
   private _fn;
   constructor(fn) {
     this._fn = fn;
@@ -30,6 +30,7 @@ export function track(target, key) {
 export function trigger(target, key) {
   let depsMap = targetMap.get(target);
   let dep = depsMap.get(key);
+
   for (let effect of dep) {
     effect.run();
   }
@@ -37,7 +38,7 @@ export function trigger(target, key) {
 
 let activeEffect;
 export function effect(fn) {
-  let _effct = new ReactiveEffct(fn);
+  const _effect = new ReactiveEffect(fn);
 
-  _effct.run();
+  _effect.run();
 }

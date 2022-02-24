@@ -6,7 +6,6 @@ export function reactive(raw) {
 
       // 依赖收集
       track(target, key);
-
       return res;
     },
 
@@ -15,7 +14,6 @@ export function reactive(raw) {
 
       // 触发依赖
       trigger(target, key);
-
       return res;
     },
   });
