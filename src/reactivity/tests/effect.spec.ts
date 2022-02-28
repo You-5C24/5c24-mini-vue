@@ -3,36 +3,17 @@ import { effect, stop } from "../effect";
 
 describe("effect", () => {
   it("happy path", () => {
-    let user = reactive({ age: 10, num: 2 });
-    let user2 = reactive({ age: 18 });
+    let user = reactive({ age: 10 });
     let nextAge;
-    let user2Age;
-    let demoAge = 0;
+
     effect(() => {
       nextAge = user.age + 1;
     });
-    effect(() => {
-      user2Age = user2.age + 1;
-    });
-    effect(() => {
-      demoAge++;
-    });
+
     expect(nextAge).toBe(11);
 
     user.age++;
     expect(nextAge).toBe(12);
-    expect(demoAge).toBe(2);
-    expect(user2Age).toBe(19);
-
-    user.num++;
-    expect(nextAge).toBe(12);
-    expect(demoAge).toBe(3);
-    expect(user2Age).toBe(19);
-
-    user2.age++;
-    expect(nextAge).toBe(12);
-    expect(demoAge).toBe(4);
-    expect(user2Age).toBe(20);
   });
 
   it("should runner when call effect", () => {
@@ -85,7 +66,8 @@ describe("effect", () => {
     obj.prop = 2;
     expect(dummy).toBe(2);
     stop(runner);
-    obj.prop = 3;
+    // obj.prop = 3;
+    obj.prop++;
     expect(dummy).toBe(2);
 
     runner();
