@@ -60,14 +60,18 @@ export function track(target, key) {
     depsMap.set(key, dep);
   }
 
-  // 依赖已经存在 dep 中
+  trackEffects(dep);
+}
+
+export function trackEffects(dep) {
+  // 依赖已经存在 dep 中就不再添加
   if (dep.has(activeEffect)) return;
 
   dep.add(activeEffect);
   activeEffect.deps.push(dep);
 }
 
-function isTracking() {
+export function isTracking() {
   return shouldTrack && activeEffect !== undefined;
 }
 
@@ -75,6 +79,10 @@ export function trigger(target, key) {
   let depsMap = targetMap.get(target);
   let dep = depsMap.get(key);
 
+  triggerEffects(dep);
+}
+
+export function triggerEffects(dep) {
   for (let effect of dep) {
     if (effect.scheduler) {
       effect.scheduler();
