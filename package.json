@@ -1,20 +1,25 @@
 {
   "name": "5c24-mini-vue",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/5c24-mini-vue.cjs.js",
+  "module": "lib/5c24-mini-vue.esm.js",
   "repository": "https://github.com/You-5C24/5c24-mini-vue.git",
   "author": "5C24 <you_5c24@163.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
+    "@rollup/plugin-typescript": "^8.3.1",
     "@types/jest": "^27.4.0",
     "babel-jest": "^27.5.1",
     "jest": "^27.5.1",
+    "rollup": "^2.70.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   }
 }
