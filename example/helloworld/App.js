@@ -9,6 +9,12 @@ export const App = {
       {
         id: "root",
         class: ["red", "blue"],
+        onClick: () => {
+          console.log("click");
+        },
+        onMousedown: () => {
+          console.log("mousedown");
+        },
       },
       "hi, " + this.msg
       // "hi, mini-vue"
