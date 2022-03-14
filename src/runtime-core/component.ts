@@ -1,4 +1,5 @@
 import { readonly } from "../reactivity/reactive";
+import { emit } from "./componentEmit";
 import { initProps } from "./componentProps";
 import { PublicInstanceProxyhandlers } from "./componentPublicInstance";
 
@@ -8,7 +9,10 @@ export function createComponentInstance(vnode) {
     type: vnode.type,
     setupState: {},
     props: {},
+    emit: () => {},
   };
+
+  component.emit = emit.bind(null, component) as any;
 
   return component;
 }
@@ -24,7 +28,9 @@ function setupStatefulComponent(instance) {
   const { setup } = component;
 
   if (setup) {
-    const setupResult = setup(readonly(instance.props));
+    const setupResult = setup(readonly(instance.props), {
+      emit: instance.emit,
+    });
     handleSetupResult(instance, setupResult);
   }
 }
