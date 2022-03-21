@@ -28,6 +28,3 @@ const renderer = createRenderer({
 });
 
 renderer.createApp(App).mount(game.stage);
-
-// const rootContainer = document.querySelector("#app");
-// createApp(App).mount(rootContainer);
