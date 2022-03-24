@@ -20,15 +20,29 @@ function patchProp(el, key, prevVal, nextVal) {
   }
 }
 
-function insert(el, parent) {
+function insert(child, parent, anchor = null) {
   console.log("insert-------------");
-  parent.append(el);
+  // parent.append(el);
+  parent.insertBefore(child, anchor);
+}
+
+function remove(child) {
+  const parent = child.parentNode;
+  if (parent) {
+    parent.removeChild(child);
+  }
+}
+
+function setElementText(el, text) {
+  el.textContent = text;
 }
 
 const renderder: any = createRenderer({
   createElement,
   patchProp,
   insert,
+  remove,
+  setElementText,
 });
 
 export function createApp(...args) {
