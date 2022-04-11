@@ -142,7 +142,7 @@ export function createRenderer(options) {
         const nextPos = e2 + 1;
         const anchor = nextPos < l2 ? c2[nextPos].el : null;
         while (i <= e2) {
-          patch(null, c2[i], container, parentComponent, parentAnchor);
+          patch(null, c2[i], container, parentComponent, anchor);
           i++;
         }
       }
