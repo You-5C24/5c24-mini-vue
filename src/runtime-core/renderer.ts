@@ -69,7 +69,7 @@ export function createRenderer(options) {
     patchProps(el, oldProps, newProps);
   }
 
-  function patchChildren(n1, n2, container, parentComponent, anchor) {
+  function patchChildren(n1, n2, container, parentComponent, parentAnchor) {
     const preShapeFlag = n1.shapeFlag;
     const { shapeFlag } = n2;
     const c1 = n1.children;
@@ -86,15 +86,21 @@ export function createRenderer(options) {
       if (preShapeFlag & ShapeFlags.TEXT_CHILDREN) {
         hostSetElementText(container, "");
 
-        mountChildren(n2.children, container, parentComponent, anchor);
+        mountChildren(n2.children, container, parentComponent, parentAnchor);
       } else {
         // array diff array
-        patchKeyedChildren(c1, c2, container, parentComponent, anchor);
+        patchKeyedChildren(c1, c2, container, parentComponent, parentAnchor);
       }
     }
   }
 
-  function patchKeyedChildren(c1, c2, container, parentComponent, anchor) {
+  function patchKeyedChildren(
+    c1,
+    c2,
+    container,
+    parentComponent,
+    parentAnchor
+  ) {
     let i = 0;
     const l2 = c2.length;
     let e1 = c1.length - 1;
@@ -110,7 +116,7 @@ export function createRenderer(options) {
       const n1 = c1[i];
       const n2 = c2[i];
       if (isSomeVNodeType(n1, n2)) {
-        patch(n1, n2, container, parentComponent, anchor);
+        patch(n1, n2, container, parentComponent, parentAnchor);
       } else {
         break;
       }
@@ -122,7 +128,7 @@ export function createRenderer(options) {
       const n1 = c1[e1];
       const n2 = c2[e2];
       if (isSomeVNodeType(n1, n2)) {
-        patch(n1, n2, container, parentComponent, anchor);
+        patch(n1, n2, container, parentComponent, parentAnchor);
       } else {
         break;
       }
@@ -136,7 +142,7 @@ export function createRenderer(options) {
         const nextPos = e2 + 1;
         const anchor = nextPos < l2 ? c2[nextPos].el : null;
         while (i <= e2) {
-          patch(null, c2[i], container, parentComponent, anchor);
+          patch(null, c2[i], container, parentComponent, parentAnchor);
           i++;
         }
       }
