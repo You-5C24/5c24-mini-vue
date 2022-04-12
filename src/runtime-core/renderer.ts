@@ -160,18 +160,20 @@ export function createRenderer(options) {
       let patched = 0; // 已经 patch 的新节点数
 
       const keyToNewIndexMap = new Map();
+      // 存储旧节点混乱元素的索引，创建指定长度的数组 性能更好
       const newIndexToOldIndexMap = new Array(toBePatched);
       let moved = false;
       let maxNewIndexSoFar = 0;
-
+      // 初始化每一项索引，0表示未建立映射关系
       for (let i = 0; i < toBePatched; i++) {
         newIndexToOldIndexMap[i] = 0;
       }
-
+      // 遍历新节点，设置 key index 映射关系
       for (let i = s2; i <= e2; i++) {
         const nextChild = c2[i];
         keyToNewIndexMap.set(nextChild.key, i);
       }
+
       for (let i = s1; i <= e1; i++) {
         const prevChild = c1[i];
 
@@ -199,24 +201,29 @@ export function createRenderer(options) {
           // 新的里面没有当前老的节点
           hostRemove(prevChild.el);
         } else {
+          // 旧节点在新节点中存在
+
           if (newIndex >= maxNewIndexSoFar) {
             maxNewIndexSoFar = newIndex;
           } else {
             moved = true;
           }
 
+          // newIndex表示当前老节点在新节点中的下标， 减去 s2 是为了将索引归于0
+          // 这里 i + 1 是初始化的时候0表示未建立映射关系，考虑到 i 为0的情况下，所以 +1
           newIndexToOldIndexMap[newIndex - s2] = i + 1;
 
-          // 新的里面有老的
           patch(prevChild, c2[newIndex], container, parentComponent, null);
           patched++;
         }
       }
-
-      const increasingNreIndexSequence = moved
+      // 获取最长递增子序列
+      const increasingNewIndexSequence = moved
         ? getSequence(newIndexToOldIndexMap)
         : [];
-      let j = increasingNreIndexSequence.length - 1;
+      // j 指向获取出来的最长递增子序列的索引
+      // i 指向新节点
+      let j = increasingNewIndexSequence.length - 1;
 
       for (let i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = i + s2;
@@ -225,7 +232,7 @@ export function createRenderer(options) {
         if (newIndexToOldIndexMap[i] === 0) {
           patch(null, nextChild, container, parentComponent, anchor);
         } else if (moved) {
-          if (j < 0 || i !== increasingNreIndexSequence[j]) {
+          if (j < 0 || i !== increasingNewIndexSequence[j]) {
             hostInsert(nextChild.el, container, anchor);
           } else {
             j--;
