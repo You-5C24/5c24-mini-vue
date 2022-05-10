@@ -4,6 +4,8 @@ export const Fragment = Symbol("Fragment");
 
 export const Text = Symbol("Text");
 
+export { createVNode as createElementVNode };
+
 export function createVNode(type, props?, children?) {
   const vnode = {
     type,
