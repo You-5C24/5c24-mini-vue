@@ -3,17 +3,27 @@ import { effect, stop } from "../effect";
 
 describe("effect", () => {
   it("happy path", () => {
-    let user = reactive({ age: 10 });
+    let user = reactive({ age: 10, name: "5c24" });
     let nextAge;
+    let nextInfo;
 
     effect(() => {
       nextAge = user.age + 1;
     });
 
+    effect(() => {
+      nextInfo = `name: ${user.name}, age: ${user.age}`;
+    });
+
     expect(nextAge).toBe(11);
+    expect(nextInfo).toBe(`name: 5c24, age: 10`);
 
     user.age++;
     expect(nextAge).toBe(12);
+    expect(nextInfo).toBe(`name: 5c24, age: 11`);
+
+    user.name = "You";
+    expect(nextInfo).toBe(`name: You, age: 11`);
   });
 
   it("should runner when call effect", () => {
