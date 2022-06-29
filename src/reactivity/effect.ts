@@ -45,7 +45,7 @@ function cleanupEffect(effect) {
   effect.deps.length = 0;
 }
 
-let targetMap = new Map();
+let targetMap = new WeakMap();
 export function track(target, key) {
   if (!isTracking()) return;
 
