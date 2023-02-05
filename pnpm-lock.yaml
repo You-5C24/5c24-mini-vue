@@ -1,0 +1,37 @@
+lockfileVersion: 5.4
+
+importers:
+
+  packages/compiler-core:
+    specifiers:
+      '@5c24-mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@5c24-mini-vue/shared': link:../shared
+
+  packages/reactivity:
+    specifiers:
+      '@5c24-mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@5c24-mini-vue/shared': link:../shared
+
+  packages/runtime-core:
+    specifiers:
+      '@5c24-mini-vue/reactivity': workspace:^1.0.0
+      '@5c24-mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@5c24-mini-vue/reactivity': link:../reactivity
+      '@5c24-mini-vue/shared': link:../shared
+
+  packages/runtime-dom:
+    specifiers:
+      '@5c24-mini-vue/runtime-core': workspace:^1.0.0
+    dependencies:
+      '@5c24-mini-vue/runtime-core': link:../runtime-core
+
+  packages/vue:
+    specifiers:
+      '@5c24-mini-vue/compiler-core': workspace:^1.0.0
+      '@5c24-mini-vue/runtime-dom': workspace:^1.0.0
+    dependencies:
+      '@5c24-mini-vue/compiler-core': link:../compiler-core
+      '@5c24-mini-vue/runtime-dom': link:../runtime-dom
